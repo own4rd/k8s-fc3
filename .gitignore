@@ -1,0 +1,32 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+server
+
+# Go
+go.sum
+vendor/
+
+# Docker
+*.tar
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kubernetes secrets (avoid committing sensitive data)
+# k8s/secrets.yaml
+
+# Env files
+.env
+.env.*
