@@ -59,3 +59,9 @@ kubectl apply -f k8s/
 >   USER: "<base64>"
 >   PASSWORD: "<base64>"
 > ```
+
+### Utils
+
+```shell
+kubectl apply -f k8s/deployment.yaml && watch -n1 kubectl get pods
+```

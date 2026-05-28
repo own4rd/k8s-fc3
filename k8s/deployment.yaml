@@ -5,7 +5,7 @@ metadata:
   labels:
     app: "goserver"
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: "goserver"
@@ -16,7 +16,26 @@ spec:
     spec:
       containers:
         - name: "goserver"
-          image: "deevi/hello-go:v5.2"
+          image: "deevi/hello-go:v5.6"
+
+          readinessProbe: # Readness Sample -> Só enviar tráfego se tiver pronta
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 3
+            failureThreshold: 1 # Deu erro 1x não tá pronta ainda
+            initialDelaySeconds: 10
+
+          livenessProbe: # Liveness Sample
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 5
+            failureThreshold: 3 # Quando dá problema, quantas vezes, ele reinicia
+            timeoutSeconds: 1 # Tempo para completar a requisição e estar OK
+            successThreshold: 1 # Quantas vezes testar e dá tudo ok para ele dizer que ta OK
+            initialDelaySeconds: 15
+
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:

@@ -6,7 +6,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
+
+var startedAt = time.Now()
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	name := os.Getenv("NAME")
@@ -32,9 +35,23 @@ func Secret(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	http.HandleFunc("/healthz", Healthz)
 	http.HandleFunc("/secret", Secret)
 	http.HandleFunc("/configmap", ConfigMap)
 	http.HandleFunc("/", helloHandler)
 	fmt.Println("Server listening on :8080")
 	http.ListenAndServe(":8080", nil)
+}
+
+func Healthz(w http.ResponseWriter, r *http.Request) {
+	
+	duration := time.Since(startedAt)
+
+	if(duration.Seconds() < 10 || duration.Seconds() > 30) {
+		w.WriteHeader(500)
+		w.Write([]byte(fmt.Sprintf("Duration: %v", duration.Seconds())))
+	} else {
+		w.WriteHeader(200)
+		w.Write([]byte("OK"))
+	}
 }
