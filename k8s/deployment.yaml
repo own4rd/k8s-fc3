@@ -16,7 +16,15 @@ spec:
     spec:
       containers:
         - name: "goserver"
-          image: "deevi/hello-go:v5.6"
+          image: "deevi/hello-go:v6.0"
+
+          resources:
+            requests:
+              cpu: "0.05"
+              memory: "20Mi"
+            limits:
+              cpu: "0.05"
+              memory: "20Mi"
 
           startupProbe: # Startup -> Apenas na inicialização -> Liveness e readiness só conta depois
             httpGet:
