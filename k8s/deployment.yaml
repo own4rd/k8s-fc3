@@ -26,6 +26,14 @@ spec:
               cpu: "0.05"
               memory: "20Mi"
 
+          resources:
+            requests: # Mínimo -> Reservando para o POD
+              cpu: 100m
+              memory: 20Mi
+            limits:
+              cpu: 500m
+              memory: 25Mi
+
           startupProbe: # Startup -> Apenas na inicialização -> Liveness e readiness só conta depois
             httpGet:
               path: /healthz
